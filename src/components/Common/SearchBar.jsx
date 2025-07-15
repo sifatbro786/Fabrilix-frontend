@@ -27,7 +27,7 @@ const SearchBar = () => {
                     onSubmit={handleSearch}
                     className="relative flex items-center justify-center w-full"
                 >
-                    <div className="relative w-1/2">
+                    <div className="relative w-[72%] md:w-1/2">
                         <input
                             type="text"
                             placeholder="Search..."
@@ -40,16 +40,16 @@ const SearchBar = () => {
                             type="submit"
                             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-secondary"
                         >
-                            <HiMagnifyingGlass className="h-6 w-6" />
+                            <HiMagnifyingGlass className="h-5 md:h-6 w-5 md:w-6" />
                         </button>
                     </div>
 
                     {/* //? close icon */}
                     <button
                         onClick={handleSearchToggle}
-                        className="absolute right-[100px] top-[40%] transform -translate-y-1/2 text-gray-600 hover:text-secondary"
+                        className="absolute right-4 md:right-[100px] top-1/2 transform -translate-y-1/2 text-gray-600 hover:text-secondary"
                     >
-                        <HiMiniXMark className="h-6 w-6" />
+                        <HiMiniXMark className="h-6 md:h-7 w-6 md:w-7" />
                     </button>
                 </form>
             ) : (

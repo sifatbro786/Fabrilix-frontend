@@ -22,7 +22,9 @@ export default function Topbar() {
                     <span>we deliver worldwide – Quick & trusted service!</span>
                 </div>
                 <div className="hidden md:block text-sm">
-                    <a href="tel:+880153504728" className="hover:text-gray-300">+880(1533504728)</a>
+                    <a href="tel:+880153504728" className="hover:text-gray-300">
+                        +880-1533504728
+                    </a>
                 </div>
             </div>
         </div>

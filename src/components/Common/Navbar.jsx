@@ -2,8 +2,22 @@ import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
 import { HiOutlineUser, HiOutlineShoppingBag } from "react-icons/hi";
 import { HiBars3BottomRight } from "react-icons/hi2";
+import CartDrawer from "../Layout/CartDrawer";
+import { useState } from "react";
+import { IoMdClose } from "react-icons/io";
 
 export default function Navbar() {
+    const [drawerOpen, setDrawerOpen] = useState(false);
+    const [navDrawerOpen, setNavDrawerOpen] = useState(false);
+
+    const toggleNavDrawer = () => {
+        setNavDrawerOpen((prev) => !prev);
+    };
+
+    const toggleCartDrawer = () => {
+        setDrawerOpen((prev) => !prev);
+    };
+
     return (
         <>
             <nav className="container mx-auto flex items-center justify-between py-4 px-6">
@@ -47,7 +61,7 @@ export default function Navbar() {
                     <Link to="/profile" className="hover:text-black">
                         <HiOutlineUser className="h-6 w-6 text-secondary" />
                     </Link>
-                    <button className="relative hover:text-black">
+                    <button onClick={toggleCartDrawer} className="relative hover:text-black">
                         <HiOutlineShoppingBag className="h-6 w-6 text-secondary" />
                         <span className="absolute -top-1 bg-primary text-white rounded-full text-xs px-2 py-0.5">
                             3
@@ -59,11 +73,60 @@ export default function Navbar() {
                     </div>
 
                     {/* //? mobile hamburger */}
-                    <button className="md:hidden">
+                    <button onClick={toggleNavDrawer} className="md:hidden">
                         <HiBars3BottomRight className="h-6 w-6 text-secondary" />
                     </button>
                 </div>
             </nav>
+
+            {/* //? cart */}
+            <CartDrawer drawerOpen={drawerOpen} toggleCartDrawer={toggleCartDrawer} />
+
+            {/* //? mobile navigation */}
+            <div
+                className={`fixed top-0 left-0 w-3/4 sm:w-1/2 md:w-1/3 h-full bg-white shadow-lg transform transition-transform duration-300 ease-in-out z-50 ${
+                    navDrawerOpen ? "translate-x-0" : "-translate-x-full"
+                }`}
+            >
+                <div className="flex justify-end p-4">
+                    <button onClick={toggleNavDrawer}>
+                        <IoMdClose className="h-6 w-6 text-gray-secondary" />
+                    </button>
+                </div>
+                <div className="p-4">
+                    <h2 className="text-xl font-semibold mb-4">Menu</h2>
+                    <nav className="space-y-4">
+                        <Link
+                            to="#"
+                            onClick={toggleNavDrawer}
+                            className="block text-secondary hover:text-black"
+                        >
+                            Men
+                        </Link>
+                        <Link
+                            to="#"
+                            onClick={toggleNavDrawer}
+                            className="block text-secondary hover:text-black"
+                        >
+                            Women
+                        </Link>
+                        <Link
+                            to="#"
+                            onClick={toggleNavDrawer}
+                            className="block text-secondary hover:text-black"
+                        >
+                            Top Wear
+                        </Link>
+                        <Link
+                            to="#"
+                            onClick={toggleNavDrawer}
+                            className="block text-secondary hover:text-black"
+                        >
+                            Bottom Wear
+                        </Link>
+                    </nav>
+                </div>
+            </div>
         </>
     );
 }

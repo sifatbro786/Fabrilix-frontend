@@ -1,12 +1,11 @@
 import Topbar from "../Layout/Topbar";
-import Navbar from "./Navbar";
+import Navbar from "../Common/Navbar";
 
-const Header = () => {
+export default function Header() {
     return (
         <header className="border-b border-gray-200">
             <Topbar />
             <Navbar />
         </header>
     );
-};
-export default Header;
+}
