@@ -1,13 +1,13 @@
+import { FiPhoneCall } from "react-icons/fi";
 import { IoLogoInstagram } from "react-icons/io";
 import { RiTwitterXLine } from "react-icons/ri";
 import { TbBrandMeta } from "react-icons/tb";
 import { Link } from "react-router-dom";
-import { FiPhoneCall } from "react-icons/fi";
 
 export default function Footer() {
     return (
-        <footer className="border-t py-12">
-            <div className="container mx-auto px-4 lg:px-0 grid grid-cols-1 md:grid-cols-4 gap-8">
+        <footer className="border-t py-12 bg-white">
+            <div className="container mx-auto px-4 lg:px-0 grid grid-cols-1 md:grid-cols-4 gap-10">
                 <div>
                     <h3 className="text-lg text-gray-800 mb-4">Newsletter</h3>
                     <p className="text-gray-500 mb-4">
@@ -23,12 +23,12 @@ export default function Footer() {
                         <input
                             type="email"
                             placeholder="Enter your email"
-                            className="p-3 w-full text-sm border-t border-l border-b border-gray-300 rounded-l-md focus:outline-none focus:ring-2 focus-ring-gray-500 transition-all"
+                            className="p-3 w-full text-sm border-t border-l border-b border-gray-300 rounded-l-md focus:outline-none focus:ring-1 focus:ring-primary transition-all"
                             required
                         />
                         <button
                             type="submit"
-                            className="bg-primary text-white px-6 py-3 rounded-r-md hover:bg-blue-800 transition-all duration-300"
+                            className="bg-primary text-white px-6 py-3 rounded-r-md hover:bg-[#fb923c] transition-all duration-300"
                         >
                             Subscribe
                         </button>
@@ -141,7 +141,7 @@ export default function Footer() {
                             <RiTwitterXLine className="h-5 w-5" />
                         </a>
                     </div>
-                    <p className="text-gray-500">Call Us</p>
+                    <p className="text-gray-800">Call Us</p>
                     <p className="mt-1">
                         <FiPhoneCall className="inline-block mr-2" />
                         +880-1533504728

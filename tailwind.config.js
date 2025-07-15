@@ -4,9 +4,14 @@ export default {
     theme: {
         extend: {
             colors: {
-                primary: "#1E3A8A",
+                primary: "#C58940",
                 secondary: "#374151",
-                // rose: "#E11D48",
+            },
+            fontFamily: {
+                outfit: ["Playfair", "serif"],
+            },
+            animation: {
+                "spin-slow": "spin 10s linear infinite",
             },
         },
     },

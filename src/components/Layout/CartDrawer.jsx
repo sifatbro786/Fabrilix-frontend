@@ -23,7 +23,7 @@ export default function CartDrawer({ drawerOpen, toggleCartDrawer }) {
 
             {/* //? checkout button */}
             <div className="p-4 bg-white sticky bottom-0">
-                <button className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-blue-800 transition duration-300">
+                <button className="w-full bg-primary text-white py-3 rounded-lg font-semibold hover:bg-[#fb923c] transition duration-300">
                     Checkout
                 </button>
                 <p className="text-sm tracking-tighter text-gray-500 mt-2 text-center">

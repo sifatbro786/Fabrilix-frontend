@@ -1,9 +1,11 @@
-
+import Hero from "../components/Layout/Hero";
+import GenderCollectionSection from "../components/Products/GenderCollectionSection";
 
 export default function Home() {
     return (
-        <section>
-            Home
-        </section>
+        <div>
+            <Hero />
+            <GenderCollectionSection />
+        </div>
     );
 }
