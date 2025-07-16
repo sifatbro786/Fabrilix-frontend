@@ -30,7 +30,7 @@ export default function Hero() {
     };
 
     return (
-        <section className="relative w-full h-[500px] md:h-screen overflow-hidden font-sans">
+        <section className="relative w-full h-[500px] md:h-screen overflow-hidden font-sans mt-[107px]">
             {/* //? Placeholder Image */}
             <img
                 src="/placeholder.jpg"

@@ -24,7 +24,7 @@ export default function Header() {
             clearTimeout(timeoutId);
             timeoutId = setTimeout(() => {
                 setShowHeader(true);
-            }, 150); // Show again when scrolling stops
+            }, 150);
         };
 
         window.addEventListener("scroll", handleScroll);
@@ -36,7 +36,7 @@ export default function Header() {
 
     return (
         <header
-            className={`fixed top-0 left-0 w-full z-50 bg-white border-b border-gray-200 transition-transform duration-500 ${
+            className={`fixed top-0 left-0 w-full z-40 bg-white border-b border-gray-200 transition-transform duration-500 ${
                 showHeader ? "translate-y-0" : "-translate-y-full"
             }`}
         >

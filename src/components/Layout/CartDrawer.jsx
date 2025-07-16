@@ -1,10 +1,11 @@
 import { IoMdClose } from "react-icons/io";
 import CartContents from "../Cart/CartContents";
+import { createPortal } from "react-dom";
 
 export default function CartDrawer({ drawerOpen, toggleCartDrawer }) {
-    return (
+    return createPortal(
         <div
-            className={`fixed top-0 right-0 w-full sm:w-1/2 md:w-[26rem] h-full bg-white shadow-lg transform transition-transform duration-300 ease-in-out flex flex-col z-50 ${
+            className={`fixed top-0 right-0 w-full sm:w-1/2 md:w-[26rem] h-full bg-white shadow-lg transform transition-transform duration-500 ease-in-out flex flex-col z-[999] ${
                 drawerOpen ? "translate-x-0" : "translate-x-full"
             }`}
         >
@@ -30,6 +31,7 @@ export default function CartDrawer({ drawerOpen, toggleCartDrawer }) {
                     shipping, taxes and discount codes calculated at checkout.
                 </p>
             </div>
-        </div>
+        </div>,
+        document.body,
     );
 }
