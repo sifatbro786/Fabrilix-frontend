@@ -49,7 +49,7 @@ export default function Hero() {
                 playsInline
                 className="absolute top-0 left-0 w-full h-full object-cover z-0"
             >
-                <source src="/vacation.mp4" type="video/mp4" />
+                <source src="/vacation2.mp4" type="video/mp4" />
             </video>
 
             {/* //? Dark overlay with glass effect */}
