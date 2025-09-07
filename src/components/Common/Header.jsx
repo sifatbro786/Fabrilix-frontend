@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Topbar from "../Layout/Topbar";
+// import Topbar from "../Layout/Topbar";
 import Navbar from "../Common/Navbar";
 
 export default function Header() {
@@ -40,7 +40,7 @@ export default function Header() {
                 showHeader ? "translate-y-0" : "-translate-y-full"
             }`}
         >
-            <Topbar />
+            {/* <Topbar /> */}
             <Navbar />
         </header>
     );

@@ -30,7 +30,7 @@ export default function Hero() {
     };
 
     return (
-        <section className="relative w-full h-[500px] md:h-screen overflow-hidden font-sans mt-[107px]">
+        <section className="relative w-full h-[500px] md:h-screen overflow-hidden font-sans mt-[60px]">
             {/* //? Placeholder Image */}
             <img
                 src="/placeholder.jpg"
@@ -58,7 +58,7 @@ export default function Hero() {
             {/* //? Mute/Unmute Button */}
             <button
                 onClick={toggleMute}
-                className="absolute top-6 right-6 z-30 bg-white bg-opacity-30 hover:bg-opacity-50 text-white p-3 rounded-full backdrop-blur-md shadow-lg transition-all duration-300"
+                className="absolute top-6 md:top-auto md:bottom-20 right-3 md:right-10 z-30 bg-white bg-opacity-30 hover:bg-opacity-50 text-white p-2 md:p-3 rounded-full backdrop-blur-md shadow-lg transition-all duration-300 w-fit"
             >
                 {isMuted ? <FaVolumeMute size={20} /> : <FaVolumeUp size={20} />}
             </button>
@@ -66,11 +66,10 @@ export default function Hero() {
             {/* //? Hero Content */}
             <div className="relative z-20 flex flex-col items-center justify-center h-full text-center text-white font-outfit px-4">
                 <h1 className=" text-4xl md:text-6xl lg:text-7xl font-extrabold leading-tight mb-4 drop-shadow-lg tracking-tight">
-                    Summer Vacation <br /> Ready
+                    Ready, Set, Vacation!
                 </h1>
                 <p className="text-lg md:text-xl max-w-xl mb-8 text-white/90">
-                    Discover our vacation-ready styles — delivered fast, wherever you are in the
-                    world!
+                    Effortless outfits for every destination — delivered fast worldwide.
                 </p>
                 <Link to="#" className="bg-orange-500 text-white px-6 py-2 rounded-sm text-lg">
                     Shop Now

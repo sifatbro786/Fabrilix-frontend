@@ -1,11 +1,12 @@
 import { Link } from "react-router-dom";
 import SearchBar from "./SearchBar";
-import { HiOutlineUser, HiOutlineShoppingBag } from "react-icons/hi";
+import { HiOutlineShoppingBag } from "react-icons/hi";
 import { HiBars3BottomRight } from "react-icons/hi2";
 import CartDrawer from "../Layout/CartDrawer";
 import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { createPortal } from "react-dom";
+import { User } from "lucide-react";
 
 export default function Navbar() {
     const [drawerOpen, setDrawerOpen] = useState(false);
@@ -60,7 +61,7 @@ export default function Navbar() {
                 {/* //? right icons */}
                 <div className="flex items-center space-x-4">
                     <Link to="/profile" className="hover:text-black">
-                        <HiOutlineUser className="h-6 w-6 text-secondary" />
+                        <User className="h-6 w-6 text-secondary" />
                     </Link>
                     <button onClick={toggleCartDrawer} className="relative hover:text-black">
                         <HiOutlineShoppingBag className="h-6 w-6 text-secondary" />
