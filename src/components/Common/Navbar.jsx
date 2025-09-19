@@ -33,7 +33,7 @@ export default function Navbar() {
                 {/* //? center navigation links */}
                 <div className="hidden md:flex space-x-6">
                     <Link
-                        to="#"
+                        to="/collections/all"
                         className="text-secondary hover:text-black text-sm font-medium uppercase"
                     >
                         Men
