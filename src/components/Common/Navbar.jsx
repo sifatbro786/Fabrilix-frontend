@@ -25,7 +25,7 @@ export default function Navbar() {
             <nav className="container mx-auto flex items-center justify-between py-4 px-6">
                 {/* //? left logo */}
                 <div>
-                    <Link to="/" className="text-2xl font-medium">
+                    <Link to="/" className="text-3xl font-medium">
                         Fabrilix
                     </Link>
                 </div>
