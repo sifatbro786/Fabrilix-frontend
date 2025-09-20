@@ -45,7 +45,7 @@ const similarProducts = [
 ];
 
 export default function ProductDetails() {
-    const [mainImage, setMainImage] = useState("");
+    const [mainImage, setMainImage] = useState(null);
     const [selectedSize, setSelectedSize] = useState("");
     const [selectedColor, setSelectedColor] = useState("");
     const [quantity, setQuantity] = useState(1);
@@ -77,7 +77,7 @@ export default function ProductDetails() {
     };
 
     return (
-        <div className="p-6 pt-4 md:pt-6">
+        <div className="p-6 pt-4 md:pt-24">
             <div className="max-w-6xl mx-auto bg-white p-8 pt-0 md:pt-8 rounded-lg">
                 <div className="flex flex-col md:flex-row">
                     {/* //? left thumbnails */}
