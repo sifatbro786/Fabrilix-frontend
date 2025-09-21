@@ -85,7 +85,7 @@ export default function OrderConfirmationPage() {
                     </div>
 
                     {/* //? payment & delivery info */}
-                    <div className="flex justify-between gap-8">
+                    <div className="grid grid-cols-2 gap-8">
                         {/* //? payment */}
                         <div>
                             <h4 className="text-lg font-semibold mb-2">Payment</h4>
