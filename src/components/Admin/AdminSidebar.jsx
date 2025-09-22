@@ -1,0 +1,86 @@
+import { ClipboardList, LogOut, PackageOpen, Store, Users } from "lucide-react";
+import { Link, NavLink, useNavigate } from "react-router-dom";
+
+export default function AdminSidebar() {
+    const navigate = useNavigate();
+
+    const handleLogout = () => {
+        navigate("/");
+    };
+
+    return (
+        <div className="p-6">
+            <div className="mb-6">
+                <Link to="/admin" className="text-2xl font-medium">
+                    Fabrilix
+                </Link>
+            </div>
+            <h2 className="text-xl font-medium text-primary mb-6 text-center">Admin Dashboard</h2>
+
+            <nav className="flex flex-col space-y-2">
+                {/* //? users */}
+                <NavLink
+                    to="/admin/users"
+                    className={({ isActive }) =>
+                        isActive
+                            ? "bg-gray-700 text-white py-3 px-4 rounded flex items-center space-x-2"
+                            : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
+                    }
+                >
+                    <Users size={20} className="ml-2" />
+                    <span className="text-lg">Users</span>
+                </NavLink>
+
+                {/* //? products */}
+                <NavLink
+                    to="/admin/products"
+                    className={({ isActive }) =>
+                        isActive
+                            ? "bg-gray-700 text-white py-3 px-4 rounded flex items-center space-x-2"
+                            : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
+                    }
+                >
+                    <PackageOpen size={20} className="ml-2" />
+                    <span className="text-lg">Products</span>
+                </NavLink>
+
+                {/* //? orders */}
+                <NavLink
+                    to="/admin/orders"
+                    className={({ isActive }) =>
+                        isActive
+                            ? "bg-gray-700 text-white py-3 px-4 rounded flex items-center space-x-2"
+                            : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
+                    }
+                >
+                    <ClipboardList size={20} className="ml-2" />
+                    <span className="text-lg">Orders</span>
+                </NavLink>
+
+                {/* //? shop */}
+                <NavLink
+                    to="/"
+                    className={({ isActive }) =>
+                        isActive
+                            ? "bg-gray-700 text-white py-3 px-4 rounded flex items-center space-x-2"
+                            : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
+                    }
+                >
+                    <Store size={20} className="ml-2" />
+                    <span className="text-lg">Shop</span>
+                </NavLink>
+            </nav>
+
+            {/* //? logout */}
+            <div className="mt-6">
+                <button
+                    onClick={handleLogout}
+                    className="w-full bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded flex items-center justify-center space-x-2 duration-200"
+                >
+                    <LogOut size={20} />
+                    <span className="text-lg">Logout</span>
+                </button>
+            </div>
+        </div>
+    );
+}

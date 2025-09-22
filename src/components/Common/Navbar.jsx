@@ -60,6 +60,9 @@ export default function Navbar() {
 
                 {/* //? right icons */}
                 <div className="flex items-center space-x-4">
+                    <Link to="/admin" className="px-2 block bg-secondary text-white rounded text-sm">
+                        Admin
+                    </Link>
                     <Link to="/profile" className="hover:text-black">
                         <User className="h-6 w-6 text-secondary" />
                     </Link>
