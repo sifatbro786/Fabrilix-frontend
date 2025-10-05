@@ -1,26 +1,25 @@
-const orders = [
-    {
-        _id: "123",
-        user: {
-            name: "John Doe",
-        },
-        totalPrice: 100,
-        status: "Processing",
-    },
-    {
-        _id: "456",
-        user: {
-            name: "Smith",
-        },
-        totalPrice: 80,
-        status: "Cancelled",
-    },
-];
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllOrders, updateOrderStatus } from "../../redux/slices/adminOrderSlice";
 
 export default function OrderManagement() {
-    const handleStatusChange = (orderId, newStatus) => {
-        console.log({ orderId, newStatus });
+    const dispatch = useDispatch();
+    const { user } = useSelector((state) => state.auth);
+    const { orders, loading, error } = useSelector((state) => state.adminOrders);
+
+    useEffect(() => {
+        if (user && user.role === "admin") {
+            dispatch(fetchAllOrders());
+        }
+    }, [dispatch, user]);
+
+    const handleStatusChange = async (orderId, newStatus) => {
+        await dispatch(updateOrderStatus({ id: orderId, status: newStatus }));
+        await dispatch(fetchAllOrders());
     };
+
+    if (loading) return <div>Loading...</div>;
+    if (error) return <div className="text-red-500">Error: {error}</div>;
 
     return (
         <div className="max-w-7xl mx-auto p-6">
@@ -47,7 +46,7 @@ export default function OrderManagement() {
                                         #{order._id}
                                     </td>
                                     <td className="p-4">{order.user.name}</td>
-                                    <td className="p-4">${order.totalPrice}</td>
+                                    <td className="p-4">${order.totalPrice.toFixed(2)}</td>
                                     <td className="p-4">
                                         <select
                                             value={order.status}

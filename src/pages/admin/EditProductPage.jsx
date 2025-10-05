@@ -1,28 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { fetchProductDetails } from "../../redux/slices/productsSlice";
+import axios from "axios";
+import { updateProduct } from "../../redux/slices/productsSlice";
 
 export default function EditProductPage() {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const { selectedProduct, loading, error } = useSelector((state) => state.products);
+
     const [productData, setProductData] = useState({
-        name: "",
-        description: "",
-        price: 0,
-        countInStock: 0,
-        sku: "",
+        name: "", //
+        description: "", //
+        price: 0, //
+        countInStock: 0, //
+        sku: "", //
+        sizes: [], //
+        colors: [], //
+        images: [], //
         category: "",
         brand: "",
-        sizes: [],
-        colors: [],
         collections: "",
         material: "",
         gender: "",
-        images: [
-            {
-                url: "https://picsum.photos/150?random=1",
-            },
-            {
-                url: "https://picsum.photos/150?random=2",
-            },
-        ],
     });
+    const [uploading, setUploading] = useState(false); // image uploading state
+
+    useEffect(() => {
+        if (id) {
+            dispatch(fetchProductDetails(id));
+        }
+    }, [dispatch, id]);
+
+    useEffect(() => {
+        if (selectedProduct) {
+            setProductData(selectedProduct);
+        }
+    }, [selectedProduct]);
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -35,13 +51,40 @@ export default function EditProductPage() {
     //! image upload:
     const handleImageUpload = async (e) => {
         const file = e.target.files[0];
-        console.log(file);
+        const formData = new FormData();
+        formData.append("image", file);
+
+        try {
+            setUploading(true);
+            const data = await axios.post(
+                `${import.meta.env.VITE_BACKEND_URL}/api/upload`,
+                formData,
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                    },
+                },
+            );
+            setProductData((prevData) => ({
+                ...prevData,
+                images: [...prevData.images, { url: data.imageUrl, altText: file.name }],
+            }));
+            setUploading(false);
+        } catch (error) {
+            console.log(error);
+            setUploading(false);
+        }
     };
 
-    const handleEditProduct = (e) => {
+    const handleEditProduct = async (e) => {
         e.preventDefault();
-        console.log(productData);
+        
+        await dispatch(updateProduct({ id, productData }));
+        navigate("/admin/products");
     };
+
+    if (loading) return <h1>Loading...</h1>;
+    if (error) return <h1 className="text-red-500">{error}</h1>;
 
     return (
         <div className="max-w-5xl mx-auto p-6 shadow-md rounded-md">
@@ -175,6 +218,8 @@ export default function EditProductPage() {
                         Upload Image
                     </label>
                     <input type="file" id="image" onChange={handleImageUpload} />
+                    {uploading && <p>uploading image...</p>}
+
                     <div className="flex gap-4 mt-4">
                         {productData.images.map((image, index) => (
                             <div key={index}>

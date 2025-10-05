@@ -1,11 +1,17 @@
 import { ClipboardList, LogOut, PackageOpen, Store, Users } from "lucide-react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { logout } from "../../redux/slices/authSlice";
+import { clearCart } from "../../redux/slices/cartSlice";
 
 export default function AdminSidebar() {
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleLogout = () => {
-        navigate("/");
+        dispatch(logout());
+        dispatch(clearCart());
+        navigate("/login");
     };
 
     return (
