@@ -1,30 +1,36 @@
 import { RiDeleteBin3Line } from "react-icons/ri";
+import { useDispatch } from "react-redux";
+import { removeFromCart, updateCartItemQuantity } from "../../redux/slices/cartSlice";
 
-export default function CartContents() {
-    const cartProducts = [
-        {
-            productId: 1,
-            name: "T-shirt",
-            size: "M",
-            color: "Red",
-            quantity: 1,
-            price: 15,
-            image: "https://picsum.photos/200?random=1",
-        },
-        {
-            productId: 2,
-            name: "Jeans",
-            size: "L",
-            color: "Blue",
-            quantity: 2,
-            price: 20,
-            image: "https://picsum.photos/200?random=2",
-        },
-    ];
+export default function CartContents({ cart, userId, guestId }) {
+    const dispatch = useDispatch();
+
+    //! handle adding or subtracting to cart
+    const handleAddToCart = (productId, delta, quantity, size, color) => {
+        const newQuantity = quantity + delta;
+        if (newQuantity >= 1) {
+            dispatch(
+                updateCartItemQuantity({
+                    productId,
+                    quantity: newQuantity,
+                    guestId,
+                    userId,
+                    size,
+                    color,
+                }),
+            );
+        }
+    };
+
+    //! handle remove form cart
+    const handleRemoveFromCart = (productId, size, color) => {
+        dispatch(removeFromCart({ productId, guestId, userId, size, color }));
+    };
+
     return (
         <div>
-            {cartProducts.length > 0 ? (
-                cartProducts.map((product) => (
+            {cart.products.length > 0 ? (
+                cart.products.map((product) => (
                     <div
                         key={product?.productId}
                         className="flex items-start justify-between py-4 border-b"
@@ -41,11 +47,33 @@ export default function CartContents() {
                                     size: {product?.size} | color: {product?.color}
                                 </p>
                                 <div className="flex items-center mt-2">
-                                    <button className="border rounded px-2 py-1 text-xl font-medium">
+                                    <button
+                                        onClick={() =>
+                                            handleAddToCart(
+                                                product?.productId,
+                                                -1,
+                                                product?.quantity,
+                                                product?.size,
+                                                product?.color,
+                                            )
+                                        }
+                                        className="border rounded px-2 py-1 text-xl font-medium"
+                                    >
                                         -
                                     </button>
                                     <span className="mx-4">{product?.quantity}</span>
-                                    <button className="border rounded px-2 py-1 text-xl font-medium">
+                                    <button
+                                        onClick={() =>
+                                            handleAddToCart(
+                                                product?.productId,
+                                                1,
+                                                product?.quantity,
+                                                product?.size,
+                                                product?.color,
+                                            )
+                                        }
+                                        className="border rounded px-2 py-1 text-xl font-medium"
+                                    >
                                         +
                                     </button>
                                 </div>
@@ -53,14 +81,22 @@ export default function CartContents() {
                         </div>
                         <div className="flex flex-col items-center">
                             <p className="font-medium">$ {product?.price.toLocaleString()}</p>
-                            <button>
+                            <button
+                                onClick={() =>
+                                    handleRemoveFromCart(
+                                        product?.productId,
+                                        product?.size,
+                                        product?.color,
+                                    )
+                                }
+                            >
                                 <RiDeleteBin3Line className="h-6 w-6 mt-2 text-red-600" />
                             </button>
                         </div>
                     </div>
                 ))
             ) : (
-                <p className="text-center">Your cart is empty</p>
+                <p className="text-xl text-center">Your cart is empty</p>
             )}
         </div>
     );

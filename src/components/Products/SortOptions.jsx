@@ -18,8 +18,8 @@ export default function SortOptions() {
                 className="border p-2 rounded-md focus:outline-none"
             >
                 <option value="">Default</option>
-                <option value="PriceAsc">Price: Low to High</option>
-                <option value="PriceDsc">Price: High to Low</option>
+                <option value="priceAsc">Price: Low to High</option>
+                <option value="priceDsc">Price: High to Low</option>
                 <option value="popularity">Popularity</option>
             </select>
         </div>

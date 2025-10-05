@@ -7,10 +7,15 @@ import { useState } from "react";
 import { IoMdClose } from "react-icons/io";
 import { createPortal } from "react-dom";
 import { User } from "lucide-react";
+import { useSelector } from "react-redux";
 
 export default function Navbar() {
+    const { cart } = useSelector((state) => state.cart);
+    const { user } = useSelector((state) => state.auth);
     const [drawerOpen, setDrawerOpen] = useState(false);
     const [navDrawerOpen, setNavDrawerOpen] = useState(false);
+
+    const cartItemCount = cart?.products?.reduce((total, product) => total + product.quantity, 0);
 
     const toggleNavDrawer = () => {
         setNavDrawerOpen((prev) => !prev);
@@ -33,25 +38,25 @@ export default function Navbar() {
                 {/* //? center navigation links */}
                 <div className="hidden md:flex space-x-6">
                     <Link
-                        to="/collections/all"
+                        to="/collections/all?gender=Men"
                         className="text-secondary hover:text-black text-sm font-medium uppercase"
                     >
                         Men
                     </Link>
                     <Link
-                        to="#"
+                        to="/collections/all?gender=Women"
                         className="text-secondary hover:text-black text-sm font-medium uppercase"
                     >
                         Women
                     </Link>
                     <Link
-                        to="#"
+                        to="/collections/all?category=Top Wear"
                         className="text-secondary hover:text-black text-sm font-medium uppercase"
                     >
                         Top Wear
                     </Link>
                     <Link
-                        to="#"
+                        to="/collections/all?category=Bottom Wear"
                         className="text-secondary hover:text-black text-sm font-medium uppercase"
                     >
                         Bottom Wear
@@ -60,17 +65,24 @@ export default function Navbar() {
 
                 {/* //? right icons */}
                 <div className="flex items-center space-x-4">
-                    <Link to="/admin" className="px-2 block bg-secondary text-white rounded text-sm">
-                        Admin
-                    </Link>
+                    {user?.role === "admin" && (
+                        <Link
+                            to="/admin"
+                            className="px-2 block bg-secondary text-white rounded text-sm"
+                        >
+                            Admin
+                        </Link>
+                    )}
                     <Link to="/profile" className="hover:text-black">
                         <User className="h-6 w-6 text-secondary" />
                     </Link>
                     <button onClick={toggleCartDrawer} className="relative hover:text-black">
                         <HiOutlineShoppingBag className="h-6 w-6 text-secondary" />
-                        <span className="absolute -top-1 bg-primary text-white rounded-full text-xs px-2 py-0.5">
-                            3
-                        </span>
+                        {cartItemCount > 0 && (
+                            <span className="absolute -top-1 bg-primary text-white rounded-full text-xs px-2 py-0.5">
+                                {cartItemCount}
+                            </span>
+                        )}
                     </button>
                     {/* //? search */}
                     <div className="overflow-hidden">
@@ -103,28 +115,28 @@ export default function Navbar() {
                         <h2 className="text-xl font-semibold mb-4">Menu</h2>
                         <nav className="space-y-4">
                             <Link
-                                to="/collections/all"
+                                to="/collections/all?gender=Men"
                                 onClick={toggleNavDrawer}
                                 className="block text-secondary hover:text-black"
                             >
                                 Men
                             </Link>
                             <Link
-                                to="#"
+                                to="/collections/all?gender=Women"
                                 onClick={toggleNavDrawer}
                                 className="block text-secondary hover:text-black"
                             >
                                 Women
                             </Link>
                             <Link
-                                to="#"
+                                to="/collections/all?category=Top Wear"
                                 onClick={toggleNavDrawer}
                                 className="block text-secondary hover:text-black"
                             >
                                 Top Wear
                             </Link>
                             <Link
-                                to="#"
+                                to="/collections/all?category=Bottom Wear"
                                 onClick={toggleNavDrawer}
                                 className="block text-secondary hover:text-black"
                             >

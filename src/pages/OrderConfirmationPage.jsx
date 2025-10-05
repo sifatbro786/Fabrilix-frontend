@@ -1,34 +1,23 @@
-const checkout = {
-    _id: "123",
-    createdAt: new Date(),
-    checkoutItems: [
-        {
-            productId: "1",
-            name: "Jacket",
-            color: "Black",
-            size: "M",
-            price: 100,
-            quantity: 1,
-            image: "https://picsum.photos/150?random=1",
-        },
-        {
-            productId: "2",
-            name: "T-Shirt",
-            color: "Black",
-            size: "M",
-            price: 120,
-            quantity: 2,
-            image: "https://picsum.photos/150?random=2",
-        },
-    ],
-    shippingAddress: {
-        address: "120 Main Street",
-        city: "New York",
-        country: "USA",
-    },
-};
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { clearCart } from "../redux/slices/cartSlice";
 
 export default function OrderConfirmationPage() {
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const { checkout } = useSelector((state) => state.checkout);
+
+    //? clear the cart when the order is confirmed
+    useEffect(() => {
+        if (checkout && checkout._id) {
+            dispatch(clearCart());
+            localStorage.removeItem("cart");
+        } else {
+            navigate("/my-orders");
+        }
+    }, [checkout, dispatch, navigate]);
+
     const calculateEstimatedDelivery = (createdAt) => {
         const orderDate = new Date(createdAt);
         orderDate.setDate(orderDate.getDate() + 10);
@@ -37,7 +26,7 @@ export default function OrderConfirmationPage() {
     };
 
     return (
-        <div className="max-w-4xl mx-auto bg-white p-6">
+        <div className="max-w-4xl mx-auto bg-white p-6 md:pt-24">
             <h1 className="text-4xl font-bold text-center text-emerald-700 mb-8">
                 Thank You for Your Order
             </h1>
@@ -47,38 +36,39 @@ export default function OrderConfirmationPage() {
                     <div className="flex justify-between mb-20">
                         {/* //? order id & date */}
                         <div>
-                            <h2 className="text-xl font-semibold">Order ID: {checkout._id}</h2>
+                            <h2 className="text-xl font-semibold">Order ID: {checkout?._id}</h2>
                             <p className="text-gray-500">
-                                Order Date: {new Date(checkout.createdAt).toDateString()}
+                                Order Date: {new Date(checkout?.createdAt).toDateString()}
                             </p>
                         </div>
 
                         {/* //? estimated delivery */}
                         <div>
                             <p className="text-emerald-700">
-                                Estimated Delivery: {calculateEstimatedDelivery(checkout.createdAt)}
+                                Estimated Delivery:{" "}
+                                {calculateEstimatedDelivery(checkout?.createdAt)}
                             </p>
                         </div>
                     </div>
 
                     {/* //? order items */}
                     <div className="mb-20">
-                        {checkout.checkoutItems.map((item) => (
-                            <div key={item.productId} className="flex items-center mb-4">
+                        {checkout?.checkoutItems?.map((item) => (
+                            <div key={item?.productId} className="flex items-center mb-4">
                                 <img
-                                    src={item.image}
-                                    alt={item.name}
+                                    src={item?.image}
+                                    alt={item?.name}
                                     className="w-16 h-16 object-cover rounded-md mr-4"
                                 />
                                 <div>
-                                    <h4 className="font-semibold">{item.name}</h4>
+                                    <h4 className="font-semibold">{item?.name}</h4>
                                     <p className="text-sm text-gray-500">
-                                        {item.color} | {item.size}
+                                        {item?.color} | {item?.size}
                                     </p>
                                 </div>
                                 <div className="ml-auto text-right">
-                                    <p>{item.price}</p>
-                                    <p className="text-sm text-gray-500">Qty: {item.quantity}</p>
+                                    <p>{item?.price}</p>
+                                    <p className="text-sm text-gray-500">Qty: {item?.quantity}</p>
                                 </div>
                             </div>
                         ))}
@@ -94,9 +84,10 @@ export default function OrderConfirmationPage() {
                         {/* //? delivery */}
                         <div>
                             <h4 className="text-lg font-semibold mb-2">Delivery</h4>
-                            <p className="text-gray-600">{checkout.shippingAddress.address}</p>
+                            <p className="text-gray-600">{checkout?.shippingAddress?.address}</p>
                             <p className="text-gray-600">
-                                {checkout.shippingAddress.city}, {checkout.shippingAddress.country}
+                                {checkout?.shippingAddress?.city},{" "}
+                                {checkout?.shippingAddress?.country}
                             </p>
                         </div>
                     </div>

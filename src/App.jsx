@@ -18,9 +18,12 @@ import UserManagement from "./pages/admin/UserManagement";
 import ProductManagement from "./pages/admin/ProductManagement";
 import EditProductPage from "./pages/admin/EditProductPage";
 import OrderManagement from "./pages/admin/OrderManagement";
+import PublicRoute from "./routes/PublicRoute";
+import AdminRoute from "./routes/AdminRoute";
+import PrivateRoute from "./routes/PrivateRoute";
 
 export default function App() {
-    const _locomotiveScroll = new LocomotiveScroll();
+    // const _locomotiveScroll = new LocomotiveScroll();
 
     return (
         <>
@@ -28,20 +31,80 @@ export default function App() {
             <Routes>
                 <Route path="/" element={<UserLayout />}>
                     <Route index element={<Home />} />
-                    <Route path="login" element={<Login />} />
-                    <Route path="register" element={<Register />} />
-                    <Route path="profile" element={<Profile />} />
+                    {/* //? public routes */}
+                    <Route
+                        path="login"
+                        element={
+                            <PublicRoute>
+                                <Login />
+                            </PublicRoute>
+                        }
+                    />
+                    <Route
+                        path="register"
+                        element={
+                            <PublicRoute>
+                                <Register />
+                            </PublicRoute>
+                        }
+                    />
                     <Route path="collections/:collection" element={<CollectionPage />} />
                     <Route path="product/:id" element={<ProductDetails />} />
-                    <Route path="checkout" element={<Checkout />} />
-                    <Route path="order-confirmation" element={<OrderConfirmationPage />} />
-                    <Route path="order/:id" element={<OrderDetailsPage />} />
-                    <Route path="my-orders" element={<MyOrdersPage />} />
+
+                    {/* //? private routes */}
+                    <Route
+                        path="profile"
+                        element={
+                            <PrivateRoute>
+                                <Profile />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="checkout"
+                        element={
+                            <PrivateRoute>
+                                <Checkout />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="order-confirmation"
+                        element={
+                            <PrivateRoute>
+                                <OrderConfirmationPage />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="order/:id"
+                        element={
+                            <PrivateRoute>
+                                <OrderDetailsPage />
+                            </PrivateRoute>
+                        }
+                    />
+                    <Route
+                        path="my-orders"
+                        element={
+                            <PrivateRoute>
+                                {" "}
+                                <MyOrdersPage />{" "}
+                            </PrivateRoute>
+                        }
+                    />
                 </Route>
 
-                {/* //? Admin Layout */}
+                {/* //? admin routes */}
                 <Route path="/admin" element={<AdminLayout />}>
-                    <Route index element={<AdminHomePage />} />
+                    <Route
+                        index
+                        element={
+                            <AdminRoute>
+                                <AdminHomePage />
+                            </AdminRoute>
+                        }
+                    />
                     <Route path="users" element={<UserManagement />} />
                     <Route path="products" element={<ProductManagement />} />
                     <Route path="product/:id/edit" element={<EditProductPage />} />

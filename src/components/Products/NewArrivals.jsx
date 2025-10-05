@@ -1,69 +1,35 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
-
-const newArrivals = [
-    {
-        _id: 1,
-        name: "Stylish Jacket",
-        price: 120,
-        images: [{ url: "https://picsum.photos/500/500?random=1", altText: "Stylish Jacket" }],
-    },
-    {
-        _id: 2,
-        name: "Stylish Jacket",
-        price: 120,
-        images: [{ url: "https://picsum.photos/500/500?random=2", altText: "Stylish Jacket" }],
-    },
-    {
-        _id: 3,
-        name: "Stylish Jacket",
-        price: 120,
-        images: [{ url: "https://picsum.photos/500/500?random=3", altText: "Stylish Jacket" }],
-    },
-    {
-        _id: 4,
-        name: "Stylish Jacket",
-        price: 120,
-        images: [{ url: "https://picsum.photos/500/500?random=4", altText: "Stylish Jacket" }],
-    },
-    {
-        _id: 5,
-        name: "Stylish Jacket",
-        price: 120,
-        images: [{ url: "https://picsum.photos/500/500?random=5", altText: "Stylish Jacket" }],
-    },
-    {
-        _id: 6,
-        name: "Stylish Jacket",
-        price: 120,
-        images: [{ url: "https://picsum.photos/500/500?random=6", altText: "Stylish Jacket" }],
-    },
-    {
-        _id: 7,
-        name: "Stylish Jacket",
-        price: 120,
-        images: [{ url: "https://picsum.photos/500/500?random=7", altText: "Stylish Jacket" }],
-    },
-    {
-        _id: 8,
-        name: "Stylish Jacket",
-        price: 120,
-        images: [{ url: "https://picsum.photos/500/500?random=8", altText: "Stylish Jacket" }],
-    },
-];
+import axios from "axios";
 
 export default function NewArrivalsSwiper() {
     const prevRef = useRef(null);
     const nextRef = useRef(null);
 
-    // state diye disable handle
+    // state disable handle
     const [isBeginning, setIsBeginning] = useState(true);
     const [isEnd, setIsEnd] = useState(false);
+
+    const [newArrivals, setNewArrivals] = useState([]);
+    useEffect(() => {
+        const fetchNewArrivals = async () => {
+            try {
+                const response = await axios.get(
+                    `${import.meta.env.VITE_BACKEND_URL}/api/products/new-arrivals`,
+                );
+                setNewArrivals(response.data);
+            } catch (error) {
+                console.log(error);
+            }
+        };
+
+        fetchNewArrivals();
+    }, []);
 
     return (
         <section className="py-16 px-4 lg:px-0">

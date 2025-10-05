@@ -1,15 +1,51 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import RegisterImage from "../assets/register.jpg";
+import { Eye, EyeOff } from "lucide-react";
+import { registerUser } from "../redux/slices/authSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "sonner";
 
 export default function Register() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
-    const handleRegister = (e) => {
+    const dispatch = useDispatch();
+    const { loading } = useSelector((state) => state.auth);
+    const navigate = useNavigate();
+
+    //? handle redirect query param from current page
+    const redirect = new URLSearchParams(location.search).get("redirect") || "/";
+
+    const handleRegister = async (e) => {
         e.preventDefault();
-        console.log(name, email, password);
+
+        if (!name || !email || !password) {
+            toast.error("Please fill in all fields!");
+            return;
+        }
+        if (password.length < 6) {
+            toast.error("Password must be at least 6 characters long!");
+            return;
+        }
+
+        try {
+            const resultAction = await dispatch(registerUser({ name, email, password }));
+
+            if (registerUser.fulfilled.match(resultAction)) {
+                toast.success("Registration successful! 🎉");
+                // navigate to login with redirect param
+                navigate(`/login?redirect=${encodeURIComponent(redirect)}`);
+            } else if (registerUser.rejected.match(resultAction)) {
+                const errorMsg = resultAction.payload?.message || "Registration failed. Try again!";
+                toast.error(errorMsg);
+            }
+        } catch (err) {
+            console.log(err);
+            toast.error("Something went wrong. Please try again later.");
+        }
     };
 
     return (
@@ -60,28 +96,42 @@ export default function Register() {
                     </div>
 
                     {/* //? password */}
-                    <div className="mb-4">
+                    <div className="mb-4 relative">
                         <label htmlFor="password" className="block text-sm font-semibold mb-2">
                             Password
                         </label>
                         <input
-                            type="password"
+                            type={showPassword ? "text" : "password"}
                             id="password"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
-                            className="w-full p-2 border rounded"
+                            className="w-full p-2 border rounded pr-10"
                             placeholder="Enter your password"
                         />
+                        <button
+                            type="button"
+                            onClick={() => setShowPassword(!showPassword)}
+                            className="absolute right-3 top-10 text-gray-600 hover:text-gray-800"
+                        >
+                            {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
+                        </button>
                     </div>
+
                     <button
                         type="submit"
-                        className="w-full bg-primary text-white py-3 rounded font-semibold hover:bg-[#fb923c] transition duration-300"
+                        disabled={loading}
+                        className={`w-full bg-primary text-white py-3 rounded font-semibold hover:bg-[#fb923c] transition duration-300  ${
+                            loading ? "opacity-70 cursor-not-allowed" : "hover:bg-[#fb923c]"
+                        }`}
                     >
-                        Sign Up
+                        {loading ? "Signing Up..." : "Sign Up"}
                     </button>
                     <p className="mt-6 text-center text-sm">
                         Already have an account?{" "}
-                        <Link to="/login" className="text-blue-500">
+                        <Link
+                            to={`/login?redirect=${encodeURIComponent(redirect)}`}
+                            className="text-blue-500"
+                        >
                             Login
                         </Link>
                     </p>
