@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { SquarePlus } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { deleteProduct, fetchAdminProducts } from "../../redux/slices/adminProductSlice";
@@ -37,7 +38,15 @@ export default function ProductManagement() {
 
     return (
         <div className="max-w-7xl mx-auto p-6">
-            <h2 className="text-2xl font-bold mb-6">Product Management</h2>
+            <div className="flex justify-between items-center mb-2">
+                <h2 className="text-2xl font-bold mb-6">Product Management</h2>
+                <Link
+                    to="/admin/addProduct"
+                    className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded flex items-center gap-2 text-lg font-bold"
+                >
+                    <SquarePlus /> Add Product
+                </Link>
+            </div>
 
             <div className="overflow-x-auto shadow-md sm:shadow-lg">
                 <table className="min-w-full text-left text-gray-500">

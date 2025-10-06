@@ -121,11 +121,11 @@ export default function ProductDetails({ productId }) {
                             </h1>
                             <div className="mb-4 flex gap-2">
                                 <p className="text-lg text-gray-600 line-through">
-                                    {selectedProduct.originalPrice &&
-                                        `${"$" + selectedProduct.originalPrice}`}
+                                    {selectedProduct.price &&
+                                        `${"$" + selectedProduct.price}`}
                                 </p>
                                 <p className="text-xl text-red-400">
-                                    {"$" + selectedProduct.price}
+                                    {"$" + selectedProduct.discountPrice}
                                 </p>
                             </div>
                             <p className="text-gray-600">{selectedProduct.description}</p>

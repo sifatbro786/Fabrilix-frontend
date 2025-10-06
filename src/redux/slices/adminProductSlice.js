@@ -26,7 +26,7 @@ export const createProduct = createAsyncThunk(
     "adminProducts/createProduct",
     async (productData, { rejectWithValue }) => {
         try {
-            const response = await axios.post(`${API_URL}/api/admin/products`, productData, {
+            const response = await axios.post(`${API_URL}/api/products`, productData, {
                 headers: {
                     Authorization: USER_TOKEN,
                 },
@@ -96,8 +96,16 @@ const adminProductSlice = createSlice({
                 state.error = action.error.message;
             })
             //! create a new product
+            .addCase(createProduct.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
             .addCase(createProduct.fulfilled, (state, action) => {
                 state.products.push(action.payload);
+            })
+            .addCase(createProduct.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.error.message || "Failed to create product";
             })
             //! update a product
             .addCase(updateProduct.fulfilled, (state, action) => {

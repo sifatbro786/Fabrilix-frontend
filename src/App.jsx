@@ -21,6 +21,13 @@ import OrderManagement from "./pages/admin/OrderManagement";
 import PublicRoute from "./routes/PublicRoute";
 import AdminRoute from "./routes/AdminRoute";
 import PrivateRoute from "./routes/PrivateRoute";
+import AddProduct from "./pages/admin/AddProduct";
+import ScrollToTop from "./components/Common/ScrollToTop";
+import NotFoundPage from "./components/Common/NotFoundPage";
+import AboutUsPage from "./pages/AboutUsPage";
+import FAQPage from "./pages/FAQPage";
+import TermsAndConditionsPage from "./pages/TermsAndConditionsPage";
+import ContactUsPage from "./pages/ContactUsPage";
 
 export default function App() {
     // const _locomotiveScroll = new LocomotiveScroll();
@@ -28,6 +35,8 @@ export default function App() {
     return (
         <>
             <Toaster position="top-right" richColors toastOptions={{ duration: 2000 }} />
+            <ScrollToTop />
+
             <Routes>
                 <Route path="/" element={<UserLayout />}>
                     <Route index element={<Home />} />
@@ -50,6 +59,11 @@ export default function App() {
                     />
                     <Route path="collections/:collection" element={<CollectionPage />} />
                     <Route path="product/:id" element={<ProductDetails />} />
+
+                    <Route path="/about" element={<AboutUsPage />} />
+                    <Route path="/faq" element={<FAQPage />} />
+                    <Route path="/terms" element={<TermsAndConditionsPage />} />
+                    <Route path="/contact" element={<ContactUsPage />} />
 
                     {/* //? private routes */}
                     <Route
@@ -96,20 +110,24 @@ export default function App() {
                 </Route>
 
                 {/* //? admin routes */}
-                <Route path="/admin" element={<AdminLayout />}>
-                    <Route
-                        index
-                        element={
-                            <AdminRoute>
-                                <AdminHomePage />
-                            </AdminRoute>
-                        }
-                    />
+                <Route
+                    path="/admin"
+                    element={
+                        <AdminRoute>
+                            <AdminLayout />
+                        </AdminRoute>
+                    }
+                >
+                    <Route index element={<AdminHomePage />} />
                     <Route path="users" element={<UserManagement />} />
                     <Route path="products" element={<ProductManagement />} />
+                    <Route path="addProduct" element={<AddProduct />} />
                     <Route path="product/:id/edit" element={<EditProductPage />} />
                     <Route path="orders" element={<OrderManagement />} />
                 </Route>
+
+                {/* //? 404 Route */}
+                <Route path="*" element={<NotFoundPage />} />
             </Routes>
         </>
     );

@@ -1,16 +1,14 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { fetchProductDetails } from "../../redux/slices/productsSlice";
-import axios from "axios";
-import { updateProduct } from "../../redux/slices/productsSlice";
 import { toast } from "sonner";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { createProduct } from "../../redux/slices/adminProductSlice";
 
-export default function EditProductPage() {
+export default function AddProduct() {
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { id } = useParams();
-    const { selectedProduct, loading, error } = useSelector((state) => state.products);
+    const { loading, error } = useSelector((state) => state.products);
 
     const [productData, setProductData] = useState({
         name: "",
@@ -28,29 +26,19 @@ export default function EditProductPage() {
         material: "",
         images: [],
     });
-    const [uploading, setUploading] = useState(false); // image uploading state
 
-    useEffect(() => {
-        if (id) {
-            dispatch(fetchProductDetails(id));
-        }
-    }, [dispatch, id]);
+    const [uploading, setUploading] = useState(false);
 
-    useEffect(() => {
-        if (selectedProduct) {
-            setProductData(selectedProduct);
-        }
-    }, [selectedProduct]);
-
+    //! handle input change
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setProductData((prevData) => ({
-            ...prevData,
+        setProductData((prev) => ({
+            ...prev,
             [name]: value,
         }));
     };
 
-    //! image upload:
+    //! handle image upload
     const handleImageUpload = async (e) => {
         const files = Array.from(e.target.files);
         const formData = new FormData();
@@ -74,7 +62,8 @@ export default function EditProductPage() {
                 images: [...prev.images, ...data.images],
             }));
         } catch (error) {
-            console.log(error);
+            console.error(error);
+            toast.error("Image upload failed");
         } finally {
             setUploading(false);
         }
@@ -95,24 +84,22 @@ export default function EditProductPage() {
                 images: prev.images.filter((img) => img.public_id !== public_id),
             }));
         } catch (error) {
-            console.log("Error deleting image:", error);
+            console.error(error);
+            toast.error("Error deleting image");
         }
     };
 
-    //! edit product
-    const handleEditProduct = async (e) => {
+    //! submit new product
+    const handleCreateProduct = async (e) => {
         e.preventDefault();
 
-        //? Compare old and new data
-        const isChanged = JSON.stringify(selectedProduct) !== JSON.stringify(productData);
-        if (!isChanged) {
-            toast.warning("No changes detected!");
-            return;
+        try {
+            await dispatch(createProduct(productData)).unwrap();
+            toast.success("Product created successfully!");
+            navigate("/admin/products");
+        } catch (err) {
+            toast.error(err?.message || "Failed to create product");
         }
-
-        await dispatch(updateProduct({ id, productData }));
-        toast.success("Product updated successfully!");
-        navigate("/admin/products");
     };
 
     if (loading) return <h1>Loading...</h1>;
@@ -120,9 +107,9 @@ export default function EditProductPage() {
 
     return (
         <div className="max-w-5xl mx-auto p-6 shadow-md rounded-md">
-            <h3 className="text-3xl font-bold mb-6">Edit Product</h3>
-            
-            <form onSubmit={handleEditProduct}>
+            <h3 className="text-3xl font-bold mb-6">Add New Product</h3>
+
+            <form onSubmit={handleCreateProduct}>
                 {/* //? product name */}
                 <div className="mb-6">
                     <label htmlFor="name" className="block font-semibold mb-2 w-fit">
@@ -183,7 +170,6 @@ export default function EditProductPage() {
                         value={productData.discountPrice}
                         onChange={handleChange}
                         className="w-full border border-gray-300 p-2 rounded-md"
-                        required
                     />
                 </div>
 
@@ -282,11 +268,10 @@ export default function EditProductPage() {
                         onChange={(e) =>
                             setProductData({
                                 ...productData,
-                                sizes: e.target.value.split(", ").map((size) => size.trim()),
+                                sizes: e.target.value.split(",").map((s) => s.trim()),
                             })
                         }
                         className="w-full border border-gray-300 p-2 rounded-md"
-                        required
                     />
                 </div>
 
@@ -303,11 +288,10 @@ export default function EditProductPage() {
                         onChange={(e) =>
                             setProductData({
                                 ...productData,
-                                colors: e.target.value.split(", ").map((color) => color.trim()),
+                                colors: e.target.value.split(",").map((c) => c.trim()),
                             })
                         }
                         className="w-full border border-gray-300 p-2 rounded-md"
-                        required
                     />
                 </div>
 
@@ -323,7 +307,6 @@ export default function EditProductPage() {
                         value={productData.collections}
                         onChange={handleChange}
                         className="w-full border border-gray-300 p-2 rounded-md"
-                        required
                     />
                 </div>
 
@@ -342,13 +325,13 @@ export default function EditProductPage() {
                     />
                 </div>
 
-                {/* //? image */}
+                {/* //? images */}
                 <div className="mb-6">
                     <label htmlFor="image" className="block font-semibold mb-2 w-fit">
-                        Upload Image
+                        Upload Images
                     </label>
-                    <input type="file" id="image" onChange={handleImageUpload} />
-                    {uploading && <p>uploading image...</p>}
+                    <input type="file" id="image" onChange={handleImageUpload} multiple />
+                    {uploading && <p>Uploading image...</p>}
 
                     <div className="flex gap-4 mt-4 flex-wrap">
                         {productData.images.map((image) => (
@@ -372,9 +355,9 @@ export default function EditProductPage() {
 
                 <button
                     type="submit"
-                    className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-md transition-colors w-full"
+                    className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-md transition-colors w-full"
                 >
-                    Update Product
+                    Add Product
                 </button>
             </form>
         </div>

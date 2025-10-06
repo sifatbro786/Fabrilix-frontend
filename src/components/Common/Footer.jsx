@@ -1,10 +1,33 @@
+import axios from "axios";
 import { FiPhoneCall } from "react-icons/fi";
 import { IoLogoInstagram } from "react-icons/io";
 import { RiTwitterXLine } from "react-icons/ri";
 import { TbBrandMeta } from "react-icons/tb";
 import { Link } from "react-router-dom";
+import { toast } from "sonner";
 
 export default function Footer() {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        const email = e.target[0].value;
+
+        try {
+            const res = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/subscribe`, {
+                email,
+            });
+
+            toast.success(res.data.message || "Subscribed successfully!");
+            e.target.reset();
+        } catch (err) {
+            if (err.response) {
+                toast.error(err.response.data.message || "Subscription failed!");
+            } else {
+                toast.error("Network error. Try again later!");
+            }
+        }
+    };
+
     return (
         <footer className="border-t py-12 bg-white">
             <div className="container mx-auto px-4 lg:px-0 grid grid-cols-1 md:grid-cols-4 gap-10">
@@ -19,7 +42,7 @@ export default function Footer() {
                     </p>
 
                     {/* //? newsletter form */}
-                    <form className="flex">
+                    <form className="flex" onSubmit={handleSubmit}>
                         <input
                             type="email"
                             placeholder="Enter your email"
@@ -41,7 +64,7 @@ export default function Footer() {
                     <ul className="space-y-2 text-gray-600">
                         <li>
                             <Link
-                                to="#"
+                                to="/collections/all?category=Top+Wear&gender=Men"
                                 className="hover:text-gray-500 transition-colors duration-300"
                             >
                                 Men's Top Wear
@@ -49,7 +72,7 @@ export default function Footer() {
                         </li>
                         <li>
                             <Link
-                                to="#"
+                                to="/collections/all?category=Top+Wear&gender=Women"
                                 className="hover:text-gray-500 transition-colors duration-300"
                             >
                                 Women's Top Wear
@@ -57,7 +80,7 @@ export default function Footer() {
                         </li>
                         <li>
                             <Link
-                                to="#"
+                                to="/collections/all?category=Bottom+Wear&gender=Men"
                                 className="hover:text-gray-500 transition-colors duration-300"
                             >
                                 Men's Bottom Wear
@@ -65,7 +88,7 @@ export default function Footer() {
                         </li>
                         <li>
                             <Link
-                                to="#"
+                                to="/collections/all?category=Bottom+Wear&gender=Women"
                                 className="hover:text-gray-500 transition-colors duration-300"
                             >
                                 Women's Bottom Wear
@@ -79,7 +102,7 @@ export default function Footer() {
                     <ul className="space-y-2 text-gray-600">
                         <li>
                             <Link
-                                to="#"
+                                to="/contact"
                                 className="hover:text-gray-500 transition-colors duration-300"
                             >
                                 Contact Us
@@ -87,7 +110,7 @@ export default function Footer() {
                         </li>
                         <li>
                             <Link
-                                to="#"
+                                to="/about"
                                 className="hover:text-gray-500 transition-colors duration-300"
                             >
                                 About Us
@@ -95,7 +118,7 @@ export default function Footer() {
                         </li>
                         <li>
                             <Link
-                                to="#"
+                                to="/faq"
                                 className="hover:text-gray-500 transition-colors duration-300"
                             >
                                 FAQ's
@@ -103,10 +126,10 @@ export default function Footer() {
                         </li>
                         <li>
                             <Link
-                                to="#"
+                                to="/terms"
                                 className="hover:text-gray-500 transition-colors duration-300"
                             >
-                                Features
+                                Terms & Conditions
                             </Link>
                         </li>
                     </ul>

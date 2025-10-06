@@ -1,4 +1,4 @@
-import { ClipboardList, LogOut, PackageOpen, Store, Users } from "lucide-react";
+import { ClipboardList, LogOut, PackageOpen, SquarePlus, Store, Users } from "lucide-react";
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../redux/slices/authSlice";
@@ -50,6 +50,19 @@ export default function AdminSidebar() {
                     <span className="text-lg">Products</span>
                 </NavLink>
 
+                {/* //? add product */}
+                <NavLink
+                    to="/admin/addProduct"
+                    className={({ isActive }) =>
+                        isActive
+                            ? "bg-gray-700 text-white py-3 px-4 rounded flex items-center space-x-2"
+                            : "text-gray-300 hover:bg-gray-700 hover:text-white py-3 px-4 rounded flex items-center space-x-2"
+                    }
+                >
+                    <SquarePlus size={20} className="ml-2" />
+                    <span className="text-lg">Add Product</span>
+                </NavLink>
+
                 {/* //? orders */}
                 <NavLink
                     to="/admin/orders"
@@ -65,7 +78,7 @@ export default function AdminSidebar() {
 
                 {/* //? shop */}
                 <NavLink
-                    to="/"
+                    to="/collections/all"
                     className={({ isActive }) =>
                         isActive
                             ? "bg-gray-700 text-white py-3 px-4 rounded flex items-center space-x-2"

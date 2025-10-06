@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchAllOrders, updateOrderStatus } from "../../redux/slices/adminOrderSlice";
+import { toast } from "sonner";
 
 export default function OrderManagement() {
     const dispatch = useDispatch();
@@ -15,6 +16,7 @@ export default function OrderManagement() {
 
     const handleStatusChange = async (orderId, newStatus) => {
         await dispatch(updateOrderStatus({ id: orderId, status: newStatus }));
+        toast.success("Order status updated successfully!");
         await dispatch(fetchAllOrders());
     };
 
