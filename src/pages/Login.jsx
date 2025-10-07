@@ -4,7 +4,7 @@ import LoginImage from "../assets/login.jpg";
 import { Eye, EyeOff } from "lucide-react";
 import { loginUser } from "../redux/slices/authSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { mergeCart } from "../redux/slices/cartSlice";
+import { clearCart, fetchCart, mergeCart } from "../redux/slices/cartSlice";
 import { toast } from "sonner";
 
 export default function Login() {
@@ -16,8 +16,9 @@ export default function Login() {
     const navigate = useNavigate();
     const location = useLocation();
 
-    const { guestId, loading } = useSelector((state) => state.auth);
+    const { loading } = useSelector((state) => state.auth);
     const { cart } = useSelector((state) => state.cart);
+    const guestId = cart?.guestId;
 
     //? get redirect param or default to home
     const redirect = new URLSearchParams(location.search).get("redirect") || "/";
@@ -36,10 +37,14 @@ export default function Login() {
             if (loginUser.fulfilled.match(resultAction)) {
                 toast.success("Login successful! 🎉");
 
+                dispatch(clearCart());
+
                 // merge cart if exists
                 if (cart?.products?.length > 0 && guestId) {
-                    dispatch(mergeCart({ user: resultAction.payload, guestId }));
+                    await dispatch(mergeCart({ user: resultAction.payload, guestId }));
                 }
+
+                await dispatch(fetchCart({ userId: resultAction.payload._id }));
 
                 navigate(redirect);
             } else if (loginUser.rejected.match(resultAction)) {
