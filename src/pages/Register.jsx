@@ -49,11 +49,11 @@ export default function Register() {
     };
 
     return (
-        <div className="flex">
-            <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-8 md:p-12">
+        <div className="flex mt-16 md:mt-0">
+            <div className="w-full md:w-1/2 flex flex-col justify-center items-center p-6 md:p-12">
                 <form
                     onSubmit={handleRegister}
-                    className="w-full max-w-md bg-white p-8 rounded-lg border shadow-sm md:mt-20"
+                    className="w-full max-w-md bg-white p-4 sm:p-8 rounded-lg border shadow-sm md:mt-20"
                 >
                     <div className="flex justify-center mb-6">
                         <Link to="/" className="text-xl font-medium">

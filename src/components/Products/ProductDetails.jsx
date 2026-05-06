@@ -71,7 +71,7 @@ export default function ProductDetails({ productId }) {
     if (error) return <div className="text-red-500">Error: {error}</div>;
 
     return (
-        <div className="p-6 pt-4 md:pt-24">
+        <div className="sm:p-6 pt-24">
             {selectedProduct && (
                 <div className="max-w-6xl mx-auto bg-white p-8 pt-0 md:pt-8 rounded-lg">
                     <div className="flex flex-col md:flex-row">
